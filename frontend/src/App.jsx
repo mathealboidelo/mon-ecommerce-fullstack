@@ -1,0 +1,32 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './pages/Home';
+import Register from './pages/Register';
+import Login from './pages/Login';
+import AddProduct from './pages/AddProduct';
+import ProductDetails from './pages/ProductDetails';
+import EditProduct from './pages/EditProduct';
+import SearchResults from './pages/SearchResults';
+
+function App() {
+  return (
+    <BrowserRouter>
+      <div style={{ fontFamily: 'Arial, sans-serif' }}>
+        <Header />
+        
+        {/* L'aiguilleur : selon l'URL, il affiche le bon composant */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/inscription" element={<Register />} />
+          <Route path="/connexion" element={<Login />} />
+          <Route path="/ajouter-produit" element={<AddProduct />} />
+          <Route path="/produit/:id" element={<ProductDetails />} />
+          <Route path="/modifier-produit/:id" element={<EditProduct />} />
+          <Route path="/recherche" element={<SearchResults />} />
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+}
+
+export default App;

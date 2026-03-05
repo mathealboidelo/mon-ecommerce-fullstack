@@ -1,0 +1,13 @@
+# Ignorer les dossiers lourds
+backend/node_modules/
+frontend/node_modules/
+frontend/dist/
+
+# 🚨 SÉCURITÉ : Ignorer les mots de passe et clés secrètes !
+backend/.env
+frontend/.env
+.env
+
+# Fichiers macOS/Windows inutiles
+.DS_Store
+Thumbs.db
