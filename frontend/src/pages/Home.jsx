@@ -5,7 +5,7 @@ function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch('${import.meta.env.VITE_API_URL}/api/products')
+    fetch(`${import.meta.env.VITE_API_URL}/api/products`)
       .then(response => response.json())
       .then(data => setProducts(data))
       .catch(error => console.error("Erreur de connexion :", error));
