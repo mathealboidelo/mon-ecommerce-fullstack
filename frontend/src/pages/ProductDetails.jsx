@@ -21,7 +21,7 @@ function ProductDetails() {
   const [newReview, setNewReview] = useState({ rating: 5, comment: '' });
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
       .then(res => {
         if (!res.ok) throw new Error("Produit introuvable");
         return res.json();
@@ -35,7 +35,7 @@ function ProductDetails() {
         setLoading(false);
       });
 
-    fetch(`http://localhost:5000/api/products/${id}/reviews`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}/reviews`)
       .then(res => res.json())
       .then(data => setReviews(data))
       .catch(err => console.error("Erreur avis :", err));
@@ -44,7 +44,7 @@ function ProductDetails() {
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}/reviews`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}/reviews`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -54,7 +54,7 @@ function ProductDetails() {
       });
 
       if (response.ok) {
-        const refreshRes = await fetch(`http://localhost:5000/api/products/${id}/reviews`);
+        const refreshRes = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}/reviews`);
         const refreshData = await refreshRes.json();
         setReviews(refreshData);
         setNewReview({ rating: 5, comment: '' }); 
@@ -72,7 +72,7 @@ function ProductDetails() {
     const confirmDelete = window.confirm("Es-tu sûr de vouloir supprimer ce produit définitivement ?");
     if (!confirmDelete) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });

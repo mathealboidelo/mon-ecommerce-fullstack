@@ -30,7 +30,7 @@ function MyAccount() {
   useEffect(() => {
     if (activeTab === 'history') {
       setLoadingOrders(true);
-      fetch('http://localhost:5000/api/orders/my-orders', {
+      fetch('${import.meta.env.VITE_API_URL}/api/orders/my-orders', {
         headers: { 'Authorization': `Bearer ${token}` }
       })
       .then(res => res.json())
@@ -54,7 +54,7 @@ function MyAccount() {
     }
 
     try {
-      const response = await fetch('http://localhost:5000/api/auth/update', {
+      const response = await fetch('${import.meta.env.VITE_API_URL}/api/auth/update', {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

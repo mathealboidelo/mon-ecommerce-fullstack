@@ -10,7 +10,7 @@ function EditProduct() {
 
   // Au chargement, on va chercher les infos actuelles du produit pour pré-remplir le formulaire
   useEffect(() => {
-    fetch(`http://localhost:5000/api/products/${id}`)
+    fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`)
       .then(res => res.json())
       .then(data => {
         setFormData({
@@ -30,7 +30,7 @@ function EditProduct() {
 
     try {
       // SÉCURITÉ : On fait un PUT (modifier) vers l'ID du produit
-      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/products/${id}`, {
         method: 'PUT',
         headers: { 
           'Content-Type': 'application/json',

@@ -1,0 +1,29 @@
+name: CI Pipeline - E-commerce
+
+# Quand est-ce que le robot s'active ?
+on:
+  push:
+    branches: [ "main" ] # À chaque push sur la branche principale
+
+# Que doit-il faire ?
+jobs:
+  verification-frontend:
+    name: Vérification du code Frontend
+    runs-on: ubuntu-latest # Il allume un ordinateur virtuel sous Linux
+
+    steps:
+      - name: 📥 Récupération du code
+        uses: actions/checkout@v3
+
+      - name: ⚙️ Installation de Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # La version de Node qu'on utilise
+
+      - name: 📦 Installation des dépendances (npm install)
+        working-directory: ./frontend
+        run: npm install
+
+      - name: 🏗️ Test de compilation (Build)
+        working-directory: ./frontend
+        run: npm run build
