@@ -4,6 +4,7 @@ const cors = require('cors');
 // On lance la connexion à la base de données
 require('./config/db'); 
 const authRoutes = require('./routes/auth');
+const orderRoutes = require('./routes/orders');
 
 // On importe nos routes
 const productRoutes = require('./routes/produits');
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/auth', authRoutes);
+app.use('/api/orders', orderRoutes);
 
 app.get('/', (req, res) => {
   res.send('API e-commerce bien rangée !');

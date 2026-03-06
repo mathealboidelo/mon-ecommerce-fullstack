@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom'; 
 import Button from './Button';
 import Input from './Input';
+import { useCartStore } from '../store/cartStore';
 
 function Header() {
   const navigate = useNavigate();
   const location = useLocation(); 
   const token = localStorage.getItem('token');
+  const totalItems = useCartStore(state => state.getTotalItems());
   
   // La boîte pour le texte tapé dans la barre du header
   const [searchInput, setSearchInput] = useState('');
@@ -49,7 +51,12 @@ function Header() {
       <div style={{ display: 'flex', gap: '15px' }}>
         {token ? (
           <> 
+            <Button text={`🛒 Panier (${totalItems})`} bgColor="#f39c12" textColor="white" onClick={() => navigate('/panier')} />
             <Button text="Ajouter un produit" bgColor="#2ecc71" textColor="white" onClick={() => navigate('/ajouter-produit')} />
+            
+            {/* 🚨 NOUVEAU BOUTON MON COMPTE */}
+            <Button text="👤 Mon Compte" bgColor="#34495e" textColor="white" onClick={() => navigate('/mon-compte')} />
+            
             <Button text="Déconnexion" bgColor="#e74c3c" textColor="white" onClick={handleLogout} />
           </>
         ) : (

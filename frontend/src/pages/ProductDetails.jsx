@@ -3,8 +3,10 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Button from '../components/Button';
 // 1. 🌟 On importe la fameuse librairie d'étoiles !
 import { Rating } from 'react-simple-star-rating';
+import { useCartStore } from '../store/cartStore';
 
 function ProductDetails() {
+  const addToCart = useCartStore(state => state.addToCart);
   const { id } = useParams(); 
   const navigate = useNavigate();
   
@@ -131,7 +133,20 @@ function ProductDetails() {
           
           <p><strong>Stock :</strong> {product.stock > 0 ? `${product.stock} unités` : <span style={{ color: 'red' }}>Rupture</span>}</p>
           
-          <Button text="Ajouter au panier 🛒" bgColor="#f39c12" textColor="white" fullWidth={true} onClick={() => alert('Bientôt !')} />
+          <Button 
+            text="Ajouter au panier 🛒" 
+            bgColor="#f39c12" 
+            textColor="white" 
+            fullWidth={true} 
+            onClick={() => {
+              if(!token) {
+                alert("Tu dois être connecté pour ajouter au panier !");
+                navigate('/connexion');
+              } else {
+                addToCart(product); // 🌟 On envoie le produit dans le Store Zustand !
+              }
+            }} 
+          />
 
           {currentUserId && product.user_id && currentUserId === product.user_id.toString() && (
             <div style={{ marginTop: '10px', display: 'flex', gap: '10px' }}>
