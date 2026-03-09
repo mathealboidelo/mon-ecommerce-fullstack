@@ -11,3 +11,7 @@ body {
   min-height: 100vh;
   color: var(--color-slate-800);
 }
+
+.star-svg {
+  display: inline-block !important;
+}
