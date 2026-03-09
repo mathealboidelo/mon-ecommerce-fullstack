@@ -31,38 +31,38 @@ function Header() {
   };
 
   return (
-    <header style={{ display: 'flex', justifyContent: 'space-between', padding: '1rem 2rem', backgroundColor: '#2c3e50', color: 'white', alignItems: 'center' }}>
+    <header className="flex flex-col md:flex-row justify-between items-center p-4 bg-slate-800 text-white gap-4 shadow-md">
       
-      {/* Le Logo / Titre (à gauche) */}
-      <h1 onClick={() => navigate('/')} style={{ margin: 0, cursor: 'pointer', fontSize: '24px' }}>Mon E-commerce</h1>
+      {/* Le Logo */}
+      <h1 onClick={() => navigate('/')} className="m-0 cursor-pointer text-2xl font-bold whitespace-nowrap hover:text-blue-400 transition-colors">
+        Mon E-commerce
+      </h1>
       
-      {/* 🔍 LA BARRE DE RECHERCHE (au centre) */}
-      <form onSubmit={handleSearch} style={{ display: 'flex', width: '400px', gap: '5px' }}>
+      {/* LA BARRE DE RECHERCHE */}
+      <form onSubmit={handleSearch} className="flex w-full md:w-auto md:flex-1 max-w-lg gap-2">
+        {/* Note: Il faudrait aussi convertir notre composant <Input /> à Tailwind plus tard */}
         <Input 
           type="text" 
-          placeholder="Rechercher un produit (ex: clavier...)" 
+          placeholder="Rechercher un produit..." 
           value={searchInput}
           onChange={(e) => setSearchInput(e.target.value)}
         />
-        <Button type="submit" text="🔍" bgColor="#34495e" textColor="white" />
+        <Button type="submit" text="🔍" bgColor="#334155" textColor="white" />
       </form>
 
-      {/* Les boutons de compte (à droite) */}
-      <div style={{ display: 'flex', gap: '15px' }}>
+      {/* Les boutons (flex-wrap permet de passer à la ligne si l'écran est trop petit) */}
+      <div className="flex flex-wrap justify-center gap-3 w-full md:w-auto">
         {token ? (
           <> 
-            <Button text={`🛒 Panier (${totalItems})`} bgColor="#f39c12" textColor="white" onClick={() => navigate('/panier')} />
-            <Button text="Ajouter un produit" bgColor="#2ecc71" textColor="white" onClick={() => navigate('/ajouter-produit')} />
-            
-            {/* 🚨 NOUVEAU BOUTON MON COMPTE */}
-            <Button text="👤 Mon Compte" bgColor="#34495e" textColor="white" onClick={() => navigate('/mon-compte')} />
-            
-            <Button text="Déconnexion" bgColor="#e74c3c" textColor="white" onClick={handleLogout} />
+            <Button text={`🛒 Panier (${totalItems})`} bgColor="#f59e0b" textColor="white" onClick={() => navigate('/panier')} />
+            <Button text="Ajouter un produit" bgColor="#10b981" textColor="white" onClick={() => navigate('/ajouter-produit')} />
+            <Button text="👤 Mon Compte" bgColor="#475569" textColor="white" onClick={() => navigate('/mon-compte')} />
+            <Button text="Déconnexion" bgColor="#ef4444" textColor="white" onClick={handleLogout} />
           </>
         ) : (
           <> 
             <Button text="Inscription" bgColor="transparent" textColor="white" onClick={() => navigate('/inscription')} />
-            <Button text="Connexion" bgColor="#3498db" textColor="white" onClick={() => navigate('/connexion')} />
+            <Button text="Connexion" bgColor="#3b82f6" textColor="white" onClick={() => navigate('/connexion')} />
           </>
         )}
       </div>
