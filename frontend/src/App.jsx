@@ -33,14 +33,7 @@ function App() {
           <Route path="/succes" element={<CheckoutSuccess />} />
           <Route path="/mon-compte" element={<MyAccount />} />
           <Route path="/admin" element={ <AdminRoute> <AdminDashboard /> </AdminRoute>} />
-          <Route 
-          path="/admin/produits" 
-          element={
-            <AdminRoute>
-              <AdminProducts />
-            </AdminRoute>
-          } 
-        />
+          <Route path="/admin/produits" element={<AdminRoute><AdminProducts /></AdminRoute>} />
         </Routes>
       </div>
     </BrowserRouter>

@@ -1,4 +1,7 @@
+import { useNavigate } from 'react-router-dom';
+
 function AdminDashboard() {
+    const navigate = useNavigate();
   return (
     <main className="p-8 max-w-5xl mx-auto">
       <h2 className="text-3xl font-extrabold mb-6 text-slate-800 border-b-2 border-slate-200 pb-2">
