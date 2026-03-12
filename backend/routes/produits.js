@@ -79,7 +79,7 @@ router.put('/:id', auth, async (req, res) => {
 
     // 3. SÉCURITÉ : On vérifie que c'est le propriétaire OU un admin
     const isOwner = productCheck.rows[0].user_id === req.auth.userId;
-    const isAdmin = userRole === 'admin';
+    const isAdmin = userRole === 'ADMIN';
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({ error: "Vous n'êtes pas autorisé à modifier ce produit." });
@@ -115,7 +115,7 @@ router.delete('/:id', auth, async (req, res) => {
 
     // 3. SÉCURITÉ : On vérifie que c'est le propriétaire OU un admin
     const isOwner = productCheck.rows[0].user_id === req.auth.userId;
-    const isAdmin = userRole === 'admin';
+    const isAdmin = userRole === 'ADMIN';
 
     if (!isOwner && !isAdmin) {
       return res.status(403).json({ error: "Vous n'êtes pas autorisé à supprimer ce produit." });
