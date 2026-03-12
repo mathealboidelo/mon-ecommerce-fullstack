@@ -3,6 +3,7 @@ const router = express.Router();
 const pool = require('../config/db');
 // 1. On importe bcrypt
 const bcrypt = require('bcrypt'); 
+const auth = require('../middleware/auth');
 
 // Créer un nouvel utilisateur (POST)
 router.post('/', async (req, res) => {
