@@ -24,7 +24,10 @@ function AdminDashboard() {
           </div>
 
           {/* Carte Commandes */}
-          <div className="bg-green-50 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow cursor-pointer">
+          <div 
+            onClick={() => navigate('/admin/commandes')} 
+            className="bg-green-50 p-6 rounded-lg border border-green-100 text-center hover:shadow-md transition-shadow cursor-pointer"
+          >
             <h3 className="font-bold text-green-800 text-xl mb-2">🛒 Commandes</h3>
             <p className="text-green-600">Voir toutes les transactions</p>
           </div>
