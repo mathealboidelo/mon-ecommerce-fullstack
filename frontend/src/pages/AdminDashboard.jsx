@@ -33,7 +33,10 @@ function AdminDashboard() {
           </div>
 
           {/* Carte Utilisateurs */}
-          <div className="bg-purple-50 p-6 rounded-lg border border-purple-100 text-center hover:shadow-md transition-shadow cursor-pointer">
+          <div 
+            onClick={() => navigate('/admin/utilisateurs')} 
+            className="bg-purple-50 p-6 rounded-lg border border-purple-100 text-center hover:shadow-md transition-shadow cursor-pointer"
+          >
             <h3 className="font-bold text-purple-800 text-xl mb-2">👥 Utilisateurs</h3>
             <p className="text-purple-600">Modérer les comptes clients</p>
           </div>

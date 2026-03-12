@@ -92,7 +92,7 @@ router.get('/all', auth, async (req, res) => {
   try {
     // 1. Vérifier si l'utilisateur qui demande est bien un administrateur
     const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
-    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'admin') {
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'ADMIN') {
       return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
     }
 

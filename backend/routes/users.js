@@ -46,4 +46,49 @@ router.get('/', async (req, res) => {
   }
 });
 
+router.get('/', auth, async (req, res) => {
+  try {
+    // 1. Vérifier si l'utilisateur qui fait la requête est admin
+    const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'ADMIN') {
+      return res.status(403).json({ error: "Accès refusé. Réservé aux administrateurs." });
+    }
+
+    // 2. Récupérer tous les utilisateurs (SANS les mots de passe !)
+    const users = await pool.query(
+      'SELECT id, name, email, role, created_at FROM users ORDER BY created_at DESC'
+    );
+    res.json(users.rows);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Erreur lors de la récupération des utilisateurs." });
+  }
+});
+
+// --- ROUTE ADMIN : SUPPRIMER UN UTILISATEUR ---
+router.delete('/:id', auth, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // 1. Vérifier si l'utilisateur qui fait la requête est admin
+    const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'ADMIN') {
+      return res.status(403).json({ error: "Accès refusé." });
+    }
+
+    // 2. 🚨 SÉCURITÉ ABSOLUE : Empêcher l'auto-suppression
+    if (id === req.auth.userId.toString()) {
+      return res.status(403).json({ error: "Suicide numérique interdit ! Vous ne pouvez pas supprimer votre propre compte." });
+    }
+
+    // 3. On supprime l'utilisateur
+    await pool.query('DELETE FROM users WHERE id = $1', [id]);
+    res.json({ message: "Utilisateur banni avec succès." });
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Erreur lors de la suppression de l'utilisateur." });
+  }
+});
+
 module.exports = router;
