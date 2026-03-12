@@ -92,9 +92,10 @@ router.get('/all', auth, async (req, res) => {
   try {
     // 1. Vérifier si l'utilisateur qui demande est bien un administrateur
     const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
-    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'ADMIN') {
-      return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
-    }
+  // On force la mise en majuscule avant de comparer :
+  if (userCheck.rows.length === 0 || userCheck.rows[0].role.toUpperCase() !== 'ADMIN') {
+    return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
+  }
 
     // 2. Récupérer toutes les commandes en les joignant avec la table users pour avoir le nom du client
     const ordersQuery = await pool.query(`

@@ -51,8 +51,9 @@ router.get('/', auth, async (req, res) => {
   try {
     // 1. Vérifier si l'utilisateur qui fait la requête est admin
     const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
-    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'ADMIN') {
-      return res.status(403).json({ error: "Accès refusé. Réservé aux administrateurs." });
+    // On force la mise en majuscule avant de comparer :
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role.toUpperCase() !== 'ADMIN') {
+      return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
     }
 
     // 2. Récupérer tous les utilisateurs (SANS les mots de passe !)
@@ -73,8 +74,9 @@ router.delete('/:id', auth, async (req, res) => {
 
     // 1. Vérifier si l'utilisateur qui fait la requête est admin
     const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
-    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'ADMIN') {
-      return res.status(403).json({ error: "Accès refusé." });
+    // On force la mise en majuscule avant de comparer :
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role.toUpperCase() !== 'ADMIN') {
+      return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
     }
 
     // 2. 🚨 SÉCURITÉ ABSOLUE : Empêcher l'auto-suppression
