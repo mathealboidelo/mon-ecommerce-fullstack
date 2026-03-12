@@ -60,7 +60,7 @@ function Header() {
             <Button text="Ajouter un produit" bgColor="#10b981" textColor="white" onClick={() => navigate('/ajouter-produit')} />
             <Button text="👤 Mon Compte" bgColor="#475569" textColor="white" onClick={() => navigate('/mon-compte')} />
             <Button text="Déconnexion" bgColor="#ef4444" textColor="white" onClick={handleLogout} />
-            {userRole === 'admin' && (
+            {userRole === 'ADMIN' && (
               <Button text="👑 Dashboard Admin" bgColor="#8b5cf6" textColor="white" onClick={() => navigate('/admin')} />
             )}
           </>
