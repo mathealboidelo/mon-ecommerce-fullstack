@@ -92,10 +92,13 @@ router.get('/all', auth, async (req, res) => {
   try {
     // 1. Vérifier si l'utilisateur qui demande est bien un administrateur
     const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
-  // On force la mise en majuscule avant de comparer :
-  if (userCheck.rows.length === 0 || userCheck.rows[0].role.toUpperCase() !== 'ADMIN') {
-    return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
-  }
+    // On force la mise en majuscule avant de comparer :
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role.toUpperCase() !== 'ADMIN') {
+      console.log("t'es pas admin")
+      return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
+    }
+
+    console.log("t'es admin")
 
     // 2. Récupérer toutes les commandes en les joignant avec la table users pour avoir le nom du client
     const ordersQuery = await pool.query(`
@@ -104,6 +107,8 @@ router.get('/all', auth, async (req, res) => {
       JOIN users u ON o.user_id = u.id
       ORDER BY o.created_at DESC
     `);
+
+    console.log("récuperation ok")
     
     const orders = ordersQuery.rows;
 
@@ -118,6 +123,8 @@ router.get('/all', auth, async (req, res) => {
       
       order.items = itemsQuery.rows;
     }
+
+    console.log("boucle ok")
 
     // 4. On renvoie le tout au Frontend
     res.json(orders);
