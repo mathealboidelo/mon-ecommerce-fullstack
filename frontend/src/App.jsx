@@ -12,6 +12,7 @@ import MyAccount from './pages/MyAccount';
 import CheckoutSuccess from './pages/CheckoutSuccess';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
+import AdminProducts from './pages/AdminProducts';
 
 function App() {
   return (
@@ -32,6 +33,14 @@ function App() {
           <Route path="/succes" element={<CheckoutSuccess />} />
           <Route path="/mon-compte" element={<MyAccount />} />
           <Route path="/admin" element={ <AdminRoute> <AdminDashboard /> </AdminRoute>} />
+          <Route 
+          path="/admin/produits" 
+          element={
+            <AdminRoute>
+              <AdminProducts />
+            </AdminRoute>
+          } 
+        />
         </Routes>
       </div>
     </BrowserRouter>

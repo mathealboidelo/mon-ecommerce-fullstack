@@ -73,12 +73,19 @@ router.put('/:id', auth, async (req, res) => {
       return res.status(404).json({ error: "Produit introuvable" });
     }
 
-    // 2. SÉCURITÉ : On vérifie que celui qui fait la requête est bien le propriétaire !
-    if (productCheck.rows[0].user_id !== req.auth.userId) {
+    // 2. On récupère le rôle de l'utilisateur qui fait la requête
+    const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
+    const userRole = userCheck.rows.length > 0 ? userCheck.rows[0].role : 'user';
+
+    // 3. SÉCURITÉ : On vérifie que c'est le propriétaire OU un admin
+    const isOwner = productCheck.rows[0].user_id === req.auth.userId;
+    const isAdmin = userRole === 'admin';
+
+    if (!isOwner && !isAdmin) {
       return res.status(403).json({ error: "Vous n'êtes pas autorisé à modifier ce produit." });
     }
 
-    // 3. Si c'est le bon utilisateur, on met à jour !
+    // 4. Si c'est le bon utilisateur ou l'admin, on met à jour !
     const updateProduct = await pool.query(
       'UPDATE products SET name = $1, description = $2, price = $3, image_url = $4, stock = $5 WHERE id = $6 RETURNING *',
       [name, description, price, imageUrl, stock, id]
@@ -91,6 +98,7 @@ router.put('/:id', auth, async (req, res) => {
   }
 });
 
+// --- ROUTE POUR SUPPRIMER UN PRODUIT ---
 router.delete('/:id', auth, async (req, res) => {
   try {
     const { id } = req.params;
@@ -101,12 +109,19 @@ router.delete('/:id', auth, async (req, res) => {
       return res.status(404).json({ error: "Produit introuvable" });
     }
 
-    // 2. SÉCURITÉ : On vérifie que c'est bien le créateur du produit !
-    if (productCheck.rows[0].user_id !== req.auth.userId) {
+    // 2. On récupère le rôle de l'utilisateur qui fait la requête
+    const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
+    const userRole = userCheck.rows.length > 0 ? userCheck.rows[0].role : 'user';
+
+    // 3. SÉCURITÉ : On vérifie que c'est le propriétaire OU un admin
+    const isOwner = productCheck.rows[0].user_id === req.auth.userId;
+    const isAdmin = userRole === 'admin';
+
+    if (!isOwner && !isAdmin) {
       return res.status(403).json({ error: "Vous n'êtes pas autorisé à supprimer ce produit." });
     }
 
-    // 3. Si tout est bon, on efface la ligne de la base de données
+    // 4. Si tout est bon, on efface la ligne de la base de données
     await pool.query('DELETE FROM products WHERE id = $1', [id]);
 
     res.json({ message: "Produit supprimé avec succès." });

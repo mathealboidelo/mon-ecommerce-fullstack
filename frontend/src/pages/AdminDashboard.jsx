@@ -12,7 +12,10 @@ function AdminDashboard() {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {/* Carte Produits */}
-          <div className="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center hover:shadow-md transition-shadow cursor-pointer">
+          <div 
+            onClick={() => navigate('/admin/produits')} 
+            className="bg-blue-50 p-6 rounded-lg border border-blue-100 text-center hover:shadow-md transition-shadow cursor-pointer"
+          >
             <h3 className="font-bold text-blue-800 text-xl mb-2">📦 Produits</h3>
             <p className="text-blue-600">Gérer le catalogue et les stocks</p>
           </div>
