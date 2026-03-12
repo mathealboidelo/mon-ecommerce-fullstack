@@ -24,6 +24,7 @@ function Login() {
         // 🚨 LA MAGIE EST ICI : On range le Token dans le coffre-fort du navigateur
         localStorage.setItem('token', data.token);
         localStorage.setItem('userId', data.user.id);
+        localStorage.setItem('userRole', data.user.role);
         
         alert("Connexion réussie ! Bienvenue.");
         navigate('/'); // On ramène l'utilisateur à l'accueil

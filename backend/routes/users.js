@@ -7,7 +7,7 @@ const bcrypt = require('bcrypt');
 // Créer un nouvel utilisateur (POST)
 router.post('/', async (req, res) => {
   try {
-    const { name, email, password, role } = req.body;
+    const { name, email, password } = req.body;
     
     // 2. Le cryptage (hachage) du mot de passe
     const saltRounds = 10; // Niveau de complexité du cryptage (10 est le standard)
@@ -16,7 +16,7 @@ router.post('/', async (req, res) => {
     // 3. On insère le mot de passe crypté (hashedPassword) au lieu du mot de passe en clair
     const newUser = await pool.query(
       'INSERT INTO users (name, email, password, role) VALUES ($1, $2, $3, $4) RETURNING *',
-      [name, email, hashedPassword, role || 'CLIENT']
+      [name, email, hashedPassword, 'CLIENT']
     );
     
     // 4. SÉCURITÉ : On retire le mot de passe de la réponse avant de l'envoyer au client

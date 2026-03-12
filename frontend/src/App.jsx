@@ -10,6 +10,8 @@ import SearchResults from './pages/SearchResults';
 import Cart from './pages/Cart';
 import MyAccount from './pages/MyAccount';
 import CheckoutSuccess from './pages/CheckoutSuccess';
+import AdminDashboard from './pages/AdminDashboard';
+import AdminRoute from './components/AdminRoute';
 
 function App() {
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path="/panier" element={<Cart />} />
           <Route path="/succes" element={<CheckoutSuccess />} />
           <Route path="/mon-compte" element={<MyAccount />} />
+          <Route path="/admin" element={ <AdminRoute> <AdminDashboard /> </AdminRoute>} />
         </Routes>
       </div>
     </BrowserRouter>

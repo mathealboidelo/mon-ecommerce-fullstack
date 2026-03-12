@@ -8,6 +8,7 @@ function Header() {
   const navigate = useNavigate();
   const location = useLocation(); 
   const token = localStorage.getItem('token');
+  const userRole = localStorage.getItem('userRole');
   const totalItems = useCartStore(state => state.getTotalItems());
   
   // La boîte pour le texte tapé dans la barre du header
@@ -16,6 +17,7 @@ function Header() {
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userId'); 
+    localStorage.removeItem('userRole');
     alert("Tu es déconnecté ! À bientôt.");
     navigate('/');
   };
@@ -58,6 +60,9 @@ function Header() {
             <Button text="Ajouter un produit" bgColor="#10b981" textColor="white" onClick={() => navigate('/ajouter-produit')} />
             <Button text="👤 Mon Compte" bgColor="#475569" textColor="white" onClick={() => navigate('/mon-compte')} />
             <Button text="Déconnexion" bgColor="#ef4444" textColor="white" onClick={handleLogout} />
+            {userRole === 'admin' && (
+              <Button text="👑 Dashboard Admin" bgColor="#8b5cf6" textColor="white" onClick={() => navigate('/admin')} />
+            )}
           </>
         ) : (
           <> 
