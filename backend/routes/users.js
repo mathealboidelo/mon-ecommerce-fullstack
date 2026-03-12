@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Récupérer tous les utilisateurs (GET)
+/* Récupérer tous les utilisateurs (GET)
 router.get('/', async (req, res) => {
   try {
     const allUsers = await pool.query(
@@ -45,6 +45,7 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: "Erreur serveur lors de la récupération des utilisateurs" });
   }
 });
+*/
 
 router.get('/', auth, async (req, res) => {
   try {

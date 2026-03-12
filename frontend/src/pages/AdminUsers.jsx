@@ -90,8 +90,8 @@ function AdminUsers() {
                       {new Date(user.created_at).toLocaleDateString('fr-FR')}
                     </td>
                     <td className="p-4">
-                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-slate-200 text-slate-700'}`}>
-                        {user.role === 'admin' ? 'Administrateur' : 'Client'}
+                      <span className={`px-3 py-1 rounded-full text-xs font-bold ${user.role === 'ADMIN' ? 'bg-purple-100 text-purple-800' : 'bg-slate-200 text-slate-700'}`}>
+                        {user.role === 'ADMIN' ? 'Administrateur' : 'Client'}
                       </span>
                     </td>
                     <td className="p-4 text-center">
