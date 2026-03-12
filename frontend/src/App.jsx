@@ -13,6 +13,7 @@ import CheckoutSuccess from './pages/CheckoutSuccess';
 import AdminDashboard from './pages/AdminDashboard';
 import AdminRoute from './components/AdminRoute';
 import AdminProducts from './pages/AdminProducts';
+import AdminOrders from './pages/AdminOrders';
 
 function App() {
   return (
@@ -34,6 +35,7 @@ function App() {
           <Route path="/mon-compte" element={<MyAccount />} />
           <Route path="/admin" element={ <AdminRoute> <AdminDashboard /> </AdminRoute>} />
           <Route path="/admin/produits" element={<AdminRoute><AdminProducts /></AdminRoute>} />
+          <Route path="/admin/commandes" element={<AdminRoute><AdminOrders /></AdminRoute>} />
         </Routes>
       </div>
     </BrowserRouter>

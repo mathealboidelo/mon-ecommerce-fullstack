@@ -88,4 +88,42 @@ router.get('/my-orders', auth, async (req, res) => {
   }
 });
 
+router.get('/all', auth, async (req, res) => {
+  try {
+    // 1. Vérifier si l'utilisateur qui demande est bien un administrateur
+    const userCheck = await pool.query('SELECT role FROM users WHERE id = $1', [req.auth.userId]);
+    if (userCheck.rows.length === 0 || userCheck.rows[0].role !== 'admin') {
+      return res.status(403).json({ error: "Accès refusé. Cette zone est réservée aux administrateurs." });
+    }
+
+    // 2. Récupérer toutes les commandes en les joignant avec la table users pour avoir le nom du client
+    const ordersQuery = await pool.query(`
+      SELECT o.id, o.total_price, o.created_at, u.name as user_name, u.email as user_email
+      FROM orders o
+      JOIN users u ON o.user_id = u.id
+      ORDER BY o.created_at DESC
+    `);
+    
+    const orders = ordersQuery.rows;
+
+    // 3. Pour chaque commande, on va chercher les articles correspondants
+    for (let order of orders) {
+      const itemsQuery = await pool.query(`
+        SELECT oi.quantity, oi.price, p.name 
+        FROM order_items oi
+        LEFT JOIN products p ON oi.product_id = p.id
+        WHERE oi.order_id = $1
+      `, [order.id]);
+      
+      order.items = itemsQuery.rows;
+    }
+
+    // 4. On renvoie le tout au Frontend
+    res.json(orders);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ error: "Erreur lors de la récupération des commandes." });
+  }
+});
+
 module.exports = router;
